@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "users": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "Firestore document ID" },
+          "email": { "type": "string", "format": "email" },
+          "created_at": { "type": "string", "format": "date" },
+          "updated_at": { "type": "string", "format": "date" }
+        },
+        "required": ["id", "email", "created_at", "updated_at"]
+      }
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "Firestore document ID" },
+          "user_id": { "type": "string", "description": "Reference to the user who owns the task" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "status": { "type": "string", "enum": ["pending", "in_progress", "completed"] },
+          "due_date": { "type": "string", "format": "date" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        },
+        "required": ["id", "user_id", "title", "status", "created_at", "updated_at"]
+      }
+    }
+  },
+  "required": ["users", "tasks"]
+}
