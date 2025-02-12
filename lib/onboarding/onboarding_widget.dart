@@ -269,7 +269,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                                     fontSize: 18.0,
                                     letterSpacing: 0.0,
                                   ),
-                          hintText: 'Favorite NBA team...',
+                          hintText: 'Favorite music artist...',
                           hintStyle:
                               FlutterFlowTheme.of(context).labelLarge.override(
                                     fontFamily: 'Inter',
