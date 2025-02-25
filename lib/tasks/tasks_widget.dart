@@ -1,15 +1,21 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/components/add_tasks_widget.dart';
 import '/components/task_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'tasks_model.dart';
 export 'tasks_model.dart';
 
 class TasksWidget extends StatefulWidget {
   const TasksWidget({super.key});
+
+  static String routeName = 'tasks';
+  static String routePath = '/tasks';
 
   @override
   State<TasksWidget> createState() => _TasksWidgetState();
@@ -24,6 +30,32 @@ class _TasksWidgetState extends State<TasksWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => TasksModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.apiResultd87 = await QuotesCall.call();
+
+      if ((_model.apiResultd87?.succeeded ?? true)) {
+        _model.quotes = getJsonField(
+          (_model.apiResultd87?.jsonBody ?? ''),
+          r'''$[:].q''',
+        ).toString().toString();
+        safeSetState(() {});
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'error',
+              style: TextStyle(
+                color: FlutterFlowTheme.of(context).primaryText,
+              ),
+            ),
+            duration: Duration(milliseconds: 4000),
+            backgroundColor: FlutterFlowTheme.of(context).secondary,
+          ),
+        );
+      }
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -165,6 +197,37 @@ class _TasksWidgetState extends State<TasksWidget> {
                       );
                     },
                   ),
+                ),
+                FutureBuilder<ApiCallResponse>(
+                  future: QuotesCall.call(),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 50.0,
+                          height: 50.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              FlutterFlowTheme.of(context).primary,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    final textQuotesResponse = snapshot.data!;
+
+                    return AutoSizeText(
+                      valueOrDefault<String>(
+                        _model.quotes,
+                        '[quote]',
+                      ),
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            fontFamily: 'Inter',
+                            letterSpacing: 0.0,
+                          ),
+                    );
+                  },
                 ),
               ].divide(SizedBox(height: 12.0)),
             ),

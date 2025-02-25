@@ -4,7 +4,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/upload_data.dart';
+import '/index.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'onboarding_model.dart';
@@ -12,6 +12,9 @@ export 'onboarding_model.dart';
 
 class OnboardingWidget extends StatefulWidget {
   const OnboardingWidget({super.key});
+
+  static String routeName = 'onboarding';
+  static String routePath = '/onboarding';
 
   @override
   State<OnboardingWidget> createState() => _OnboardingWidgetState();
@@ -79,92 +82,42 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                         ),
                       ],
                     ),
-                    InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () async {
-                        final selectedMedia =
-                            await selectMediaWithSourceBottomSheet(
-                          context: context,
-                          allowPhoto: true,
-                        );
-                        if (selectedMedia != null &&
-                            selectedMedia.every((m) =>
-                                validateFileFormat(m.storagePath, context))) {
-                          safeSetState(() => _model.isDataUploading = true);
-                          var selectedUploadedFiles = <FFUploadedFile>[];
-
-                          try {
-                            selectedUploadedFiles = selectedMedia
-                                .map((m) => FFUploadedFile(
-                                      name: m.storagePath.split('/').last,
-                                      bytes: m.bytes,
-                                      height: m.dimensions?.height,
-                                      width: m.dimensions?.width,
-                                      blurHash: m.blurHash,
-                                    ))
-                                .toList();
-                          } finally {
-                            _model.isDataUploading = false;
-                          }
-                          if (selectedUploadedFiles.length ==
-                              selectedMedia.length) {
-                            safeSetState(() {
-                              _model.uploadedLocalFile =
-                                  selectedUploadedFiles.first;
-                            });
-                          } else {
-                            safeSetState(() {});
-                            return;
-                          }
-                        }
-
-                        await currentUserReference!
-                            .update(createUsersRecordData(
-                          photoUrl: _model.uploadedFileUrl,
-                        ));
-                      },
-                      child: Stack(
-                        alignment: AlignmentDirectional(-1.0, 1.0),
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                8.0, 0.0, 0.0, 8.0),
-                            child: Container(
-                              width: 68.0,
-                              height: 68.0,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
-                                borderRadius: BorderRadius.circular(68.0),
-                                border: Border.all(
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  width: 1.0,
-                                ),
+                    Stack(
+                      alignment: AlignmentDirectional(-1.0, 1.0),
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              8.0, 0.0, 0.0, 8.0),
+                          child: Container(
+                            width: 68.0,
+                            height: 68.0,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              borderRadius: BorderRadius.circular(68.0),
+                              border: Border.all(
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                width: 1.0,
                               ),
                             ),
                           ),
-                          FlutterFlowIconButton(
-                            borderColor:
-                                FlutterFlowTheme.of(context).primaryText,
-                            borderRadius: 8.0,
-                            buttonSize: 37.0,
-                            fillColor:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            icon: Icon(
-                              Icons.arrow_back,
-                              color: FlutterFlowTheme.of(context).info,
-                              size: 21.0,
-                            ),
-                            onPressed: () {
-                              print('IconButton pressed ...');
-                            },
+                        ),
+                        FlutterFlowIconButton(
+                          borderColor: FlutterFlowTheme.of(context).primaryText,
+                          borderRadius: 8.0,
+                          buttonSize: 37.0,
+                          fillColor:
+                              FlutterFlowTheme.of(context).primaryBackground,
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: FlutterFlowTheme.of(context).info,
+                            size: 21.0,
                           ),
-                        ],
-                      ),
+                          onPressed: () {
+                            print('IconButton pressed ...');
+                          },
+                        ),
+                      ],
                     ),
                     Container(
                       width: double.infinity,
@@ -422,7 +375,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                     birthday: _model.datePicked,
                   ));
 
-                  context.goNamed('tasks');
+                  context.goNamed(TasksWidget.routeName);
                 },
                 text: 'Complete Profile',
                 options: FFButtonOptions(
