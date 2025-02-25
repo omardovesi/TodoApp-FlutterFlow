@@ -3,6 +3,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/index.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'home_page_model.dart';
@@ -10,6 +11,9 @@ export 'home_page_model.dart';
 
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({super.key});
+
+  static String routeName = 'HomePage';
+  static String routePath = '/homePage';
 
   @override
   State<HomePageWidget> createState() => _HomePageWidgetState();
@@ -108,7 +112,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                       createdTime: getCurrentTimestamp,
                     ));
 
-                context.goNamedAuth('onboarding', context.mounted);
+                context.goNamedAuth(TasksWidget.routeName, context.mounted);
               },
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -173,7 +177,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                   }
 
                                   context.goNamedAuth(
-                                      'onboarding', context.mounted);
+                                      TasksWidget.routeName, context.mounted);
                                 },
                                 () async {}
                               ][i]();
@@ -754,7 +758,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                               return;
                             }
 
-                            context.goNamedAuth('onboarding', context.mounted);
+                            context.goNamedAuth(
+                                TasksWidget.routeName, context.mounted);
                           },
                           text: 'Login',
                           options: FFButtonOptions(
@@ -820,7 +825,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                   createdTime: getCurrentTimestamp,
                                 ));
 
-                            context.goNamedAuth('onboarding', context.mounted);
+                            context.goNamedAuth(
+                                OnboardingWidget.routeName, context.mounted);
                           },
                           text: 'Sign Up',
                           options: FFButtonOptions(
